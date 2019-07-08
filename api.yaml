@@ -1,0 +1,1396 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: LoopBack Application
+basePath: /api
+paths:
+  /system/ping:
+    get:
+      tags:
+        - System
+      summary: Test the connection to the business network
+      operationId: System.ping
+      parameters: []
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/PingResponse'
+      deprecated: false
+  /system/identities:
+    get:
+      tags:
+        - System
+      summary: Get all identities from the identity registry
+      operationId: System.getAllIdentities
+      parameters: []
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: array
+            items:
+              type: object
+      deprecated: false
+  '/system/identities/{id}':
+    get:
+      tags:
+        - System
+      summary: Get the specified identity from the identity registry
+      operationId: System.getIdentityByID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+      deprecated: false
+  /system/identities/issue:
+    post:
+      tags:
+        - System
+      summary: Issue an identity to the specified participant
+      operationId: System.issueIdentity
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/IssueIdentityRequest'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: file
+      deprecated: false
+  /system/identities/bind:
+    post:
+      tags:
+        - System
+      summary: Bind an identity to the specified participant
+      operationId: System.bindIdentity
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/BindIdentityRequest'
+      responses:
+        '204':
+          description: Request was successful
+      deprecated: false
+  '/system/identities/{id}/revoke':
+    post:
+      tags:
+        - System
+      summary: Revoke the specified identity
+      operationId: System.revokeIdentity
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        '204':
+          description: Request was successful
+      deprecated: false
+  /system/historian:
+    get:
+      tags:
+        - System
+      summary: Get all Historian Records from the Historian
+      operationId: System.getAllHistorianRecords
+      parameters: []
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: array
+            items:
+              type: object
+      deprecated: false
+  '/system/historian/{id}':
+    get:
+      tags:
+        - System
+      summary: Get the specified Historian Record from the Historian
+      operationId: System.getHistorianRecordByID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+      deprecated: false
+  /queries/selectBiddings:
+    get:
+      tags:
+        - Query
+      summary: Select all biddings
+      operationId: Query.selectBiddings
+      parameters: []
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Bidding'
+      deprecated: false
+  /queries/selectContractsByOrder:
+    get:
+      tags:
+        - Query
+      summary: Select all orders
+      operationId: Query.selectContractsByOrder
+      parameters:
+        - name: biddingId
+          in: query
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Contract'
+      deprecated: false
+  /queries/selectProposals:
+    get:
+      tags:
+        - Query
+      summary: Select all proposals
+      operationId: Query.selectProposals
+      parameters: []
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Proposal'
+      deprecated: false
+  /queries/selectBiddingsByAssociation:
+    get:
+      tags:
+        - Query
+      summary: Select all orders based on their owner
+      operationId: Query.selectBiddingsByAssociation
+      parameters:
+        - name: covenantId
+          in: query
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Bidding'
+      deprecated: false
+  /Organization:
+    post:
+      tags:
+        - Organization
+      summary: Create a new instance of the model and persist it into the data source.
+      operationId: Organization.create
+      parameters:
+        - name: data
+          in: body
+          description: Model instance data
+          required: false
+          schema:
+            description: Model instance data
+            $ref: '#/definitions/Organization'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Organization'
+      deprecated: false
+    get:
+      tags:
+        - Organization
+      summary: Find all instances of the model matched by filter from the data source.
+      operationId: Organization.find
+      parameters:
+        - name: filter
+          in: query
+          description: 'Filter defining fields, where, include, order, offset, and limit - must be a JSON-encoded string ({"something":"value"})'
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Organization'
+      deprecated: false
+  '/Organization/{id}':
+    head:
+      tags:
+        - Organization
+      summary: Check whether a model instance exists in the data source.
+      operationId: Organization.exists
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+            properties:
+              exists:
+                type: boolean
+      deprecated: false
+    get:
+      tags:
+        - Organization
+      summary: 'Find a model instance by {{id}} from the data source.'
+      operationId: Organization.findById
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+        - name: filter
+          in: query
+          description: 'Filter defining fields and include - must be a JSON-encoded string ({"something":"value"})'
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Organization'
+      deprecated: false
+    put:
+      tags:
+        - Organization
+      summary: Replace attributes for a model instance and persist it into the data source.
+      operationId: Organization.replaceById
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+        - name: data
+          in: body
+          description: Model instance data
+          required: false
+          schema:
+            description: Model instance data
+            $ref: '#/definitions/Organization'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Organization'
+      deprecated: false
+    delete:
+      tags:
+        - Organization
+      summary: 'Delete a model instance by {{id}} from the data source.'
+      operationId: Organization.deleteById
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+      deprecated: false
+  /Contract:
+    post:
+      tags:
+        - Contract
+      summary: Create a new instance of the model and persist it into the data source.
+      operationId: Contract.create
+      parameters:
+        - name: data
+          in: body
+          description: Model instance data
+          required: false
+          schema:
+            description: Model instance data
+            $ref: '#/definitions/Contract'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Contract'
+      deprecated: false
+    get:
+      tags:
+        - Contract
+      summary: Find all instances of the model matched by filter from the data source.
+      operationId: Contract.find
+      parameters:
+        - name: filter
+          in: query
+          description: 'Filter defining fields, where, include, order, offset, and limit - must be a JSON-encoded string ({"something":"value"})'
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Contract'
+      deprecated: false
+  '/Contract/{id}':
+    head:
+      tags:
+        - Contract
+      summary: Check whether a model instance exists in the data source.
+      operationId: Contract.exists
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+            properties:
+              exists:
+                type: boolean
+      deprecated: false
+    get:
+      tags:
+        - Contract
+      summary: 'Find a model instance by {{id}} from the data source.'
+      operationId: Contract.findById
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+        - name: filter
+          in: query
+          description: 'Filter defining fields and include - must be a JSON-encoded string ({"something":"value"})'
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Contract'
+      deprecated: false
+    put:
+      tags:
+        - Contract
+      summary: Replace attributes for a model instance and persist it into the data source.
+      operationId: Contract.replaceById
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+        - name: data
+          in: body
+          description: Model instance data
+          required: false
+          schema:
+            description: Model instance data
+            $ref: '#/definitions/Contract'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Contract'
+      deprecated: false
+    delete:
+      tags:
+        - Contract
+      summary: 'Delete a model instance by {{id}} from the data source.'
+      operationId: Contract.deleteById
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+      deprecated: false
+  /Proposal:
+    post:
+      tags:
+        - Proposal
+      summary: Create a new instance of the model and persist it into the data source.
+      operationId: Proposal.create
+      parameters:
+        - name: data
+          in: body
+          description: Model instance data
+          required: false
+          schema:
+            description: Model instance data
+            $ref: '#/definitions/Proposal'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Proposal'
+      deprecated: false
+    get:
+      tags:
+        - Proposal
+      summary: Find all instances of the model matched by filter from the data source.
+      operationId: Proposal.find
+      parameters:
+        - name: filter
+          in: query
+          description: 'Filter defining fields, where, include, order, offset, and limit - must be a JSON-encoded string ({"something":"value"})'
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Proposal'
+      deprecated: false
+  '/Proposal/{id}':
+    head:
+      tags:
+        - Proposal
+      summary: Check whether a model instance exists in the data source.
+      operationId: Proposal.exists
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+            properties:
+              exists:
+                type: boolean
+      deprecated: false
+    get:
+      tags:
+        - Proposal
+      summary: 'Find a model instance by {{id}} from the data source.'
+      operationId: Proposal.findById
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+        - name: filter
+          in: query
+          description: 'Filter defining fields and include - must be a JSON-encoded string ({"something":"value"})'
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Proposal'
+      deprecated: false
+    put:
+      tags:
+        - Proposal
+      summary: Replace attributes for a model instance and persist it into the data source.
+      operationId: Proposal.replaceById
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+        - name: data
+          in: body
+          description: Model instance data
+          required: false
+          schema:
+            description: Model instance data
+            $ref: '#/definitions/Proposal'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Proposal'
+      deprecated: false
+    delete:
+      tags:
+        - Proposal
+      summary: 'Delete a model instance by {{id}} from the data source.'
+      operationId: Proposal.deleteById
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+      deprecated: false
+  /Bidding:
+    post:
+      tags:
+        - Bidding
+      summary: Create a new instance of the model and persist it into the data source.
+      operationId: Bidding.create
+      parameters:
+        - name: data
+          in: body
+          description: Model instance data
+          required: false
+          schema:
+            description: Model instance data
+            $ref: '#/definitions/Bidding'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Bidding'
+      deprecated: false
+    get:
+      tags:
+        - Bidding
+      summary: Find all instances of the model matched by filter from the data source.
+      operationId: Bidding.find
+      parameters:
+        - name: filter
+          in: query
+          description: 'Filter defining fields, where, include, order, offset, and limit - must be a JSON-encoded string ({"something":"value"})'
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Bidding'
+      deprecated: false
+  '/Bidding/{id}':
+    head:
+      tags:
+        - Bidding
+      summary: Check whether a model instance exists in the data source.
+      operationId: Bidding.exists
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+            properties:
+              exists:
+                type: boolean
+      deprecated: false
+    get:
+      tags:
+        - Bidding
+      summary: 'Find a model instance by {{id}} from the data source.'
+      operationId: Bidding.findById
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+        - name: filter
+          in: query
+          description: 'Filter defining fields and include - must be a JSON-encoded string ({"something":"value"})'
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Bidding'
+      deprecated: false
+    put:
+      tags:
+        - Bidding
+      summary: Replace attributes for a model instance and persist it into the data source.
+      operationId: Bidding.replaceById
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+        - name: data
+          in: body
+          description: Model instance data
+          required: false
+          schema:
+            description: Model instance data
+            $ref: '#/definitions/Bidding'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Bidding'
+      deprecated: false
+    delete:
+      tags:
+        - Bidding
+      summary: 'Delete a model instance by {{id}} from the data source.'
+      operationId: Bidding.deleteById
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+      deprecated: false
+  /CreateBidding:
+    post:
+      tags:
+        - CreateBidding
+      summary: Create a new instance of the model and persist it into the data source.
+      operationId: CreateBidding.create
+      parameters:
+        - name: data
+          in: body
+          description: Model instance data
+          required: false
+          schema:
+            description: Model instance data
+            $ref: '#/definitions/CreateBidding'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/CreateBidding'
+      deprecated: false
+    get:
+      tags:
+        - CreateBidding
+      summary: Find all instances of the model matched by filter from the data source.
+      operationId: CreateBidding.find
+      parameters:
+        - name: filter
+          in: query
+          description: 'Filter defining fields, where, include, order, offset, and limit - must be a JSON-encoded string ({"something":"value"})'
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CreateBidding'
+      deprecated: false
+  '/CreateBidding/{id}':
+    get:
+      tags:
+        - CreateBidding
+      summary: 'Find a model instance by {{id}} from the data source.'
+      operationId: CreateBidding.findById
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+        - name: filter
+          in: query
+          description: 'Filter defining fields and include - must be a JSON-encoded string ({"something":"value"})'
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/CreateBidding'
+      deprecated: false
+  /CreateProposal:
+    post:
+      tags:
+        - CreateProposal
+      summary: Create a new instance of the model and persist it into the data source.
+      operationId: CreateProposal.create
+      parameters:
+        - name: data
+          in: body
+          description: Model instance data
+          required: false
+          schema:
+            description: Model instance data
+            $ref: '#/definitions/CreateProposal'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/CreateProposal'
+      deprecated: false
+    get:
+      tags:
+        - CreateProposal
+      summary: Find all instances of the model matched by filter from the data source.
+      operationId: CreateProposal.find
+      parameters:
+        - name: filter
+          in: query
+          description: 'Filter defining fields, where, include, order, offset, and limit - must be a JSON-encoded string ({"something":"value"})'
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CreateProposal'
+      deprecated: false
+  '/CreateProposal/{id}':
+    get:
+      tags:
+        - CreateProposal
+      summary: 'Find a model instance by {{id}} from the data source.'
+      operationId: CreateProposal.findById
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+        - name: filter
+          in: query
+          description: 'Filter defining fields and include - must be a JSON-encoded string ({"something":"value"})'
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/CreateProposal'
+      deprecated: false
+  /CreateContract:
+    post:
+      tags:
+        - CreateContract
+      summary: Create a new instance of the model and persist it into the data source.
+      operationId: CreateContract.create
+      parameters:
+        - name: data
+          in: body
+          description: Model instance data
+          required: false
+          schema:
+            description: Model instance data
+            $ref: '#/definitions/CreateContract'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/CreateContract'
+      deprecated: false
+    get:
+      tags:
+        - CreateContract
+      summary: Find all instances of the model matched by filter from the data source.
+      operationId: CreateContract.find
+      parameters:
+        - name: filter
+          in: query
+          description: 'Filter defining fields, where, include, order, offset, and limit - must be a JSON-encoded string ({"something":"value"})'
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CreateContract'
+      deprecated: false
+  '/CreateContract/{id}':
+    get:
+      tags:
+        - CreateContract
+      summary: 'Find a model instance by {{id}} from the data source.'
+      operationId: CreateContract.findById
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+        - name: filter
+          in: query
+          description: 'Filter defining fields and include - must be a JSON-encoded string ({"something":"value"})'
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/CreateContract'
+      deprecated: false
+  /CancelContract:
+    post:
+      tags:
+        - CancelContract
+      summary: Create a new instance of the model and persist it into the data source.
+      operationId: CancelContract.create
+      parameters:
+        - name: data
+          in: body
+          description: Model instance data
+          required: false
+          schema:
+            description: Model instance data
+            $ref: '#/definitions/CancelContract'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/CancelContract'
+      deprecated: false
+    get:
+      tags:
+        - CancelContract
+      summary: Find all instances of the model matched by filter from the data source.
+      operationId: CancelContract.find
+      parameters:
+        - name: filter
+          in: query
+          description: 'Filter defining fields, where, include, order, offset, and limit - must be a JSON-encoded string ({"something":"value"})'
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CancelContract'
+      deprecated: false
+  '/CancelContract/{id}':
+    get:
+      tags:
+        - CancelContract
+      summary: 'Find a model instance by {{id}} from the data source.'
+      operationId: CancelContract.findById
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+        - name: filter
+          in: query
+          description: 'Filter defining fields and include - must be a JSON-encoded string ({"something":"value"})'
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/CancelContract'
+      deprecated: false
+tags:
+  - name: System
+    description: General business network methods
+  - name: Query
+    description: Named queries
+  - name: Organization
+    description: A participant named Organization
+  - name: Contract
+    description: An asset named Contract
+  - name: Proposal
+    description: An asset named Proposal
+  - name: Bidding
+    description: An asset named Bidding
+  - name: CreateBidding
+    description: A transaction named CreateBidding
+  - name: CreateProposal
+    description: A transaction named CreateProposal
+  - name: CreateContract
+    description: A transaction named CreateContract
+  - name: CancelContract
+    description: A transaction named CancelContract
+consumes:
+  - application/json
+  - application/x-www-form-urlencoded
+  - application/xml
+  - text/xml
+produces:
+  - application/json
+  - application/xml
+  - text/xml
+  - application/javascript
+  - text/javascript
+definitions:
+  PingResponse:
+    description: The response to the ping method
+    properties:
+      participant:
+        type: string
+      identity:
+        type: string
+      version:
+        type: string
+    required:
+      - version
+    additionalProperties: false
+  IssueIdentityRequest:
+    description: The request to the issueIdentity method
+    properties:
+      participant:
+        type: string
+      userID:
+        type: string
+      options:
+        type: object
+    required:
+      - participant
+      - userID
+    additionalProperties: false
+  BindIdentityRequest:
+    description: The request to the bindIdentity method
+    properties:
+      participant:
+        type: string
+      certificate:
+        type: string
+    required:
+      - certificate
+    additionalProperties: false
+  Bidding:
+    description: An asset named Bidding
+    properties:
+      $class:
+        default: sdc.network.Bidding
+        description: The class identifier for this type
+        type: string
+      biddingId:
+        description: The instance identifier for this type
+        type: string
+      title:
+        type: string
+      description:
+        type: string
+      address:
+        type: string
+      covenantId:
+        type: string
+      covenantDescription:
+        type: string
+      deadline:
+        type: string
+      startDate:
+        type: string
+        format: date-time
+      closingDate:
+        type: string
+        format: date-time
+      openingDate:
+        type: string
+        format: date-time
+      kind:
+        enum:
+          - GLOBAL_PURPOSE
+          - ITEM
+        type: string
+      status:
+        enum:
+          - DRAFT
+          - WAITING
+          - APPROVED
+          - ONGOING
+          - CLOSED
+          - UNDER_REVIEW
+          - FINNISHED
+          - CANCELED
+          - SUSPENDED
+          - FAILURE
+        type: string
+      lots:
+        default: []
+        type: array
+        items:
+          $ref: '#/definitions/BiddingLot'
+    required:
+      - biddingId
+      - title
+      - description
+      - address
+      - covenantId
+      - covenantDescription
+      - openingDate
+      - kind
+      - status
+    additionalProperties: false
+  Contract:
+    description: An asset named Contract
+    properties:
+      $class:
+        default: sdc.network.Contract
+        description: The class identifier for this type
+        type: string
+      contractHash:
+        description: The instance identifier for this type
+        type: string
+      biddingId:
+        type: string
+      status:
+        enum:
+          - ACTIVE
+          - CANCELED
+        type: string
+      proposals:
+        description: The identifier of an instance of proposals
+        type: array
+        items:
+          $ref: '#/definitions/x-any'
+    required:
+      - contractHash
+      - biddingId
+      - status
+      - proposals
+    additionalProperties: false
+  Proposal:
+    description: An asset named Proposal
+    properties:
+      $class:
+        default: sdc.network.Proposal
+        description: The class identifier for this type
+        type: string
+      proposalId:
+        description: The instance identifier for this type
+        type: string
+      providerId:
+        type: string
+      providerDescription:
+        type: string
+      price:
+        type: number
+        format: double
+      bidding:
+        description: The identifier of an instance of bidding
+        $ref: '#/definitions/x-any'
+      status:
+        enum:
+          - DRAFT
+          - SENT
+          - TRIAGE
+          - COOP_REFUSED
+          - REFUSED
+          - COOP_ACCEPTED
+          - ACCEPTED
+          - FAILURE
+        type: string
+      lots:
+        default: []
+        type: array
+        items:
+          $ref: '#/definitions/ProposalLot'
+    required:
+      - proposalId
+      - providerId
+      - providerDescription
+      - price
+      - bidding
+      - status
+    additionalProperties: false
+  Organization:
+    description: A participant named Organization
+    properties:
+      $class:
+        default: sdc.network.Organization
+        description: The class identifier for this type
+        type: string
+      organizationId:
+        description: The instance identifier for this type
+        type: string
+      orgDescription:
+        type: string
+    required:
+      - organizationId
+      - orgDescription
+    additionalProperties: false
+  x-any:
+    properties: {}
+  CreateBidding:
+    description: A transaction named CreateBidding
+    properties:
+      $class:
+        default: sdc.network.CreateBidding
+        description: The class identifier for this type
+        type: string
+      newBidding:
+        $ref: '#/definitions/Bidding'
+      transactionId:
+        description: The instance identifier for this type
+        type: string
+      timestamp:
+        type: string
+        format: date-time
+    required:
+      - newBidding
+    additionalProperties: false
+  CreateProposal:
+    description: A transaction named CreateProposal
+    properties:
+      $class:
+        default: sdc.network.CreateProposal
+        description: The class identifier for this type
+        type: string
+      newProposal:
+        description: The identifier of an instance of newProposal
+        $ref: '#/definitions/x-any'
+      transactionId:
+        description: The instance identifier for this type
+        type: string
+      timestamp:
+        type: string
+        format: date-time
+    required:
+      - newProposal
+    additionalProperties: false
+  CreateContract:
+    description: A transaction named CreateContract
+    properties:
+      $class:
+        default: sdc.network.CreateContract
+        description: The class identifier for this type
+        type: string
+      newContract:
+        description: The identifier of an instance of newContract
+        $ref: '#/definitions/x-any'
+      transactionId:
+        description: The instance identifier for this type
+        type: string
+      timestamp:
+        type: string
+        format: date-time
+    required:
+      - newContract
+    additionalProperties: false
+  CancelContract:
+    description: A transaction named CancelContract
+    properties:
+      $class:
+        default: sdc.network.CancelContract
+        description: The class identifier for this type
+        type: string
+      contract:
+        description: The identifier of an instance of contract
+        $ref: '#/definitions/x-any'
+      transactionId:
+        description: The instance identifier for this type
+        type: string
+      timestamp:
+        type: string
+        format: date-time
+    required:
+      - contract
+    additionalProperties: false
+  BiddingLot:
+    description: A concept named BiddingLot
+    properties:
+      $class:
+        default: sdc.network.BiddingLot
+        description: The class identifier for this type
+        type: string
+      lotId:
+        type: string
+      name:
+        type: string
+      address:
+        type: string
+      deadline:
+        type: string
+      status:
+        enum:
+          - DRAFT
+          - WAITING
+          - TRIAGE
+          - ACCEPTED
+          - FAILURE
+          - DESERT
+          - CANCELED
+        type: string
+      items:
+        default: []
+        type: array
+        items:
+          $ref: '#/definitions/BiddingItem'
+      id:
+        type: string
+    required:
+      - lotId
+      - name
+      - address
+      - status
+    additionalProperties: false
+  ProposalLot:
+    description: A concept named ProposalLot
+    properties:
+      $class:
+        default: sdc.network.ProposalLot
+        description: The class identifier for this type
+        type: string
+      lotId:
+        type: string
+      supplierId:
+        type: string
+      supplierDescription:
+        type: string
+      name:
+        type: string
+      price:
+        type: number
+        format: double
+      status:
+        enum:
+          - OPEN
+          - CONTRACTED
+        type: string
+      items:
+        default: []
+        type: array
+        items:
+          $ref: '#/definitions/ProposalItem'
+      id:
+        type: string
+    required:
+      - lotId
+      - supplierId
+      - supplierDescription
+      - name
+      - price
+      - status
+    additionalProperties: false
+  BiddingItem:
+    description: A concept named BiddingItem
+    properties:
+      $class:
+        default: sdc.network.BiddingItem
+        description: The class identifier for this type
+        type: string
+      quantity:
+        type: number
+        format: double
+      itemId:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+    required:
+      - quantity
+      - itemId
+      - description
+    additionalProperties: false
+  ProposalItem:
+    description: A concept named ProposalItem
+    properties:
+      $class:
+        default: sdc.network.ProposalItem
+        description: The class identifier for this type
+        type: string
+      price:
+        type: number
+        format: double
+      quantity:
+        type: number
+        format: double
+      itemId:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+    required:
+      - price
+      - quantity
+      - itemId
+      - description
+    additionalProperties: false

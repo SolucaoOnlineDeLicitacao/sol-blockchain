@@ -1,0 +1,29 @@
+/**
+  Queries
+*/
+
+query selectBiddings {
+  description: "Select all biddings"
+  statement:
+      SELECT sdc.network.Bidding
+}
+
+query selectContractsByOrder {
+  description: "Select all orders"
+  statement:
+      SELECT sdc.network.Contract
+       WHERE (bidding == _$biddingId) 
+}
+
+query selectProposals {
+  description: "Select all proposals"
+  statement:
+      SELECT sdc.network.Proposal
+}
+
+query selectBiddingsByAssociation {
+  description: "Select all orders based on their owner"
+  statement:
+      SELECT sdc.network.Bidding
+          WHERE (covenantId == _$covenantId)
+}

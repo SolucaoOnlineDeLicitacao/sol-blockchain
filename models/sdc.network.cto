@@ -1,0 +1,178 @@
+/**
+ * Model definitions
+ */
+
+namespace sdc.network
+
+
+// Enum lists 
+enum BiddingType {
+  o UNITARY
+  o LOT
+  o GLOBAL
+}
+
+enum BiddingStatus {
+  o DRAFT
+  o WAITING
+  o APPROVED
+  o ONGOING
+  o CLOSED
+  o UNDER_REVIEW
+  o FINNISHED
+  o CANCELED
+  o SUSPENDED
+  o REOPENED
+  o DESERT
+  o DRAW
+  o FAILURE
+}
+
+enum BiddingModality {
+  o UNRESTRICTED
+  o OPEN_INVITE
+  o CLOSED_INVITE 
+}
+
+enum BiddingLotStatus {
+  o DRAFT
+  o WAITING
+  o TRIAGE
+  o ACCEPTED
+  o UNDER_REVIEW
+  o FAILURE
+  o DESERT
+  o CANCELED
+}
+
+
+enum ProposalStatus {
+  o DRAFT
+  o SENT
+  o TRIAGE
+  o COOP_REFUSED
+  o REFUSED
+  o COOP_ACCEPTED
+  o ACCEPTED
+  o DRAW
+  o FAILURE
+  o ABANDONED
+  o DESISTANCE
+}
+
+enum ProposalBiddingLotStatus {
+  o DRAFT
+  o WAITING
+  o TRIAGE
+  o ACCEPTED
+  o FAILURE
+  o DESERT
+  o CANCELED
+}
+
+enum ContractEntity {
+  o ADMIN
+  o SUPPLIER
+}
+
+enum ContractStatus {
+  o WAITING_SIGNATURE
+  o SIGNED
+  o COMPLETED
+  o PARTIAL_EXECUTION
+  o TOTAL_INEXECUTION
+  o REFUSED
+}
+
+
+// Participants
+participant Organization identified by organizationId {
+  o String organizationId
+  o String orgDescription
+}
+
+
+// Assets 
+
+concept LotGroupItem {
+  o String groupItemId
+  o Double quantity
+}
+
+concept ReturnedLotGroupItem {
+  o String returnedLotGroupItemId
+  o Integer quantity
+  o String lot_group_item_id
+}
+
+concept LotGroupItemLotProposal {
+  o String lotGroupItemId
+  o Double price
+}
+
+asset Contract identified by contractId {
+  o String contractHash
+  o String contractId
+  o Integer quantity
+  o Double price_total
+  o ReturnedLotGroupItem[] returnedLotGroupItems optional
+  --> Bidding bidding
+  --> Proposal proposal
+  o String supplier_id optional
+  o ContractEntity refused_by_type optional
+  o String refused_by_id optional
+  o String user_id
+  o DateTime deleted_at optional
+  o DateTime supplier_signed_at optional
+  o DateTime user_signed_at
+  o DateTime refused_at optional
+  o ContractStatus status
+} 
+
+asset Proposal identified by proposalId {
+  o String proposalId
+  o String providerId
+  o Double price_total
+  o String biddingId
+  --> Bidding bidding
+  o DateTime sent_update_at optional
+  o ProposalStatus status
+  o LotProposal[] lot_proposals
+}
+
+concept LotProposal {
+  o String lotId
+  o String supplierId
+  o Double price_total
+  o Double delivery_price
+  o LotGroupItemLotProposal[] lot_group_item_lot_proposals
+}
+
+concept Lot {
+  o String lotId
+  o String name
+  o BiddingLotStatus status
+  o LotGroupItem[] lot_group_items
+}
+
+asset Bidding identified by biddingId {
+  o String biddingId
+  o String title
+  o String description
+  o String covenantId
+  o String parent_id optional
+  o String covenantDescription
+  o Integer deadline
+  o Integer draw_end_days
+  o DateTime draw_at
+  o DateTime start_date
+  o DateTime closing_date
+  o BiddingType kind
+  o BiddingModality modality
+  o BiddingStatus status
+  o Lot[] lots
+}
+
+transaction CancelContract {
+  --> Contract contract
+}

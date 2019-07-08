@@ -1,0 +1,6 @@
+*.carde
+#envvars.txt
+*.pem
+*.card
+*.amazonaws.com
+.composer/
