@@ -101,7 +101,7 @@ concept LotGroupItem {
 
 concept ReturnedLotGroupItem {
   o String returnedLotGroupItemId
-  o Integer quantity
+  o Double quantity
   o String lot_group_item_id
 }
 
@@ -113,7 +113,7 @@ concept LotGroupItemLotProposal {
 asset Contract identified by contractId {
   o String contractHash
   o String contractId
-  o Integer quantity
+  o Double quantity
   o Double price_total
   o ReturnedLotGroupItem[] returnedLotGroupItems optional
   --> Bidding bidding
